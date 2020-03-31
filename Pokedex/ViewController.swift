@@ -5,10 +5,11 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var pokemonImage: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
     }
 
 
