@@ -6,55 +6,17 @@ import UIKit
 import Alamofire
 
 class ViewController:  UIViewController, UISearchBarDelegate {
-
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("test")
-//        return 2
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        print("text")
-//        return 2
-//    }
-
     @IBOutlet weak var pokemonImage: UIImageView!
     @IBOutlet weak var search: UISearchBar!
 
-    var searchActive : Bool = false
-//    var data = ["Weedle","Bubassaur","Ekans","Metapod","Voltorb","Magmar"]
-//    var filtered:[String] = []
+    var searchActive: Bool = false
+    var api: RequestAPI = RequestAPI()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         /* Setup delegates */
         self.search.delegate = self
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
-
-        let api = RequestAPI()
-        api.fetchPokemon("1").then { pokemon in
-            api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
-        }.done { image in
-            self.pokemonImage.image = image
-        }.catch { error in
-            print("Cant find pokemon")
-        }
-    }
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchActive = true;
-    }
-
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        searchActive = false;
-    }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        //search.resignFirstResponder()
-        searchActive = false;
-    }
-
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        //search.resignFirstResponder()
-        searchActive = false;
     }
 
     // every key pressed
@@ -74,7 +36,23 @@ class ViewController:  UIViewController, UISearchBarDelegate {
 //    }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("GO")
+        if searchBar.text!.isEmpty {
+            self.pokemonImage.image = nil
+            return
+        }
+        if let pokemonName = searchBar.text
+        {
+            self.pokemonImage.image = nil
+            let pokeNameLower: String = pokemonName.lowercased()
+            api.fetchPokemon(name: pokeNameLower).then { pokemon in
+                self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
+            }.done { image in
+                self.pokemonImage.image = image
+            }.catch { error in
+                print("Cant find pokemon")
+                self.pokemonImage.image = nil
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
