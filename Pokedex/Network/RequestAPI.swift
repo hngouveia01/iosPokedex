@@ -1,6 +1,7 @@
 import Foundation
 import PromiseKit
 import Alamofire
+import UIKit
 
 
 let baseURL: String = "http://pokeapi.co/api/v2"
@@ -28,16 +29,30 @@ class RequestAPI {
                 let identity = object!["id"] as! Int
                 let pokemonName = object!["name"] as! String
                 let pokemonHeight = object!["height"] as! Int
+                let sprites = object!["sprites"] as? [String: Any]
+                let url = sprites!["front_default"]
+                let pokemonSprite = PKMPokemonSprites(frontDefault: url as! String)
 
                 //let weight = object!["weight"] as! Int
                 //let sprites = object!["sprites"] as? [String: Any]
                 //let url = sprites!["front_default"]
-                let pokemon = PKMPokemon(id: identity, name: pokemonName, height: pokemonHeight)
+                let pokemon = PKMPokemon(id: identity, name: pokemonName, height: pokemonHeight, sprites: pokemonSprite)
 
                 seal.fulfill(pokemon)
 
             }.resume()
         }
+    }
+    func fetchPokemonImage(imageURL: URL) -> Promise<UIImage> {
+        return Promise { seal in
+            AF.download(imageURL).response { response in
+                if response.error == nil,
+                    let imagePath = response.fileURL?.path {
+                    let image = UIImage(contentsOfFile: imagePath)
+                    seal.fulfill(image!)
+                }
 
+            }
+        }
     }
 }
