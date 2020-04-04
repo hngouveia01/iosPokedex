@@ -32,6 +32,11 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         self.pokeTableView.delegate = self
         self.search.delegate = self
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
+
+        let api = RequestAPI()
+        api.fetchPokemon("1").done { pokemon in
+            print(pokemon.name)
+        }
     }
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         searchActive = true;
