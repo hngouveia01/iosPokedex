@@ -16,12 +16,16 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         /* Setup delegates */
         self.search.delegate = self
+
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
+
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTap(sender:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
         singleTapGestureRecognizer.cancelsTouchesInView = false
         self.view.addGestureRecognizer(singleTapGestureRecognizer)
+
+        self.search.searchTextField.autocapitalizationType = .none
     }
 
     @objc func singleTap(sender: UITapGestureRecognizer) {
