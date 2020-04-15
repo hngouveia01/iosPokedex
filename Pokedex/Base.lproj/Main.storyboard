@@ -29,16 +29,26 @@
                                 <color key="barTintColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </searchBar>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5vZ-2L-XWp" userLabel="okImageView">
+                                <rect key="frame" x="312" y="586" width="37" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="aes-pF-7XH" appends="YES" id="U5g-4S-A5u"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="okUImage" destination="5vZ-2L-XWp" id="LdS-Qe-7Qp"/>
                         <outlet property="pokemonImage" destination="E6q-je-r7V" id="kW4-3r-Fo7"/>
                         <outlet property="search" destination="Th9-er-Ccx" id="Qq6-De-XGw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="aes-pF-7XH"/>
             </objects>
             <point key="canvasLocation" x="1076" y="137.18140929535232"/>
         </scene>

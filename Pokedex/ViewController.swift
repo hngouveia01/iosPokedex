@@ -8,6 +8,8 @@ import Alamofire
 class ViewController:  UIViewController, UISearchBarDelegate {
     @IBOutlet weak var pokemonImage: UIImageView!
     @IBOutlet weak var search: UISearchBar!
+    @IBOutlet weak var okUImage: UIImageView!
+    let tapRec = UITapGestureRecognizer()
 
     var searchActive: Bool = false
     var api: RequestAPI = RequestAPI()
@@ -19,6 +21,10 @@ class ViewController:  UIViewController, UISearchBarDelegate {
 
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
 
+        tapRec.addTarget(self, action: #selector(self.tappedView(sender:)))
+        okUImage.addGestureRecognizer(tapRec)
+        okUImage.isUserInteractionEnabled = true;
+
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTap(sender:)))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
@@ -26,6 +32,10 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         self.view.addGestureRecognizer(singleTapGestureRecognizer)
 
         self.search.searchTextField.autocapitalizationType = .none
+    }
+
+    @objc func tappedView(sender: UITapGestureRecognizer){
+        print("image tapped")
     }
 
     @objc func singleTap(sender: UITapGestureRecognizer) {
