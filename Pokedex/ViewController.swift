@@ -19,22 +19,6 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
     }
 
-    // every key pressed
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        filtered = data.filter({ (text) -> Bool in
-//            let tmp: NSString = text as NSString
-//            let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-//            return range.location != NSNotFound
-//        })
-//        if(filtered.count == 0){
-//            searchActive = false;
-//        } else {
-//            searchActive = true;
-//        }
-//
-//        self.pokeTableView.reloadData()
-//    }
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text!.isEmpty {
             self.pokemonImage.image = nil
@@ -53,6 +37,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
                 self.pokemonImage.image = nil
             }
         }
+        searchBar.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
