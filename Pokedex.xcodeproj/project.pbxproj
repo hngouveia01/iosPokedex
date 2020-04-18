@@ -100,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				CB4CBB48244BA72B001893E5 /* UIView+Glow.swift */,
+				CBD6AA4624328A270042EFE8 /* ViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -140,7 +141,6 @@
 				CBC744002432C39F0099676C /* Assets */,
 				CBD6AA4224328A260042EFE8 /* AppDelegate.swift */,
 				CBD6AA4424328A270042EFE8 /* SceneDelegate.swift */,
-				CBD6AA4624328A270042EFE8 /* ViewController.swift */,
 				CBD6AA4824328A270042EFE8 /* Main.storyboard */,
 				CBD6AA4B24328A290042EFE8 /* Assets.xcassets */,
 				CBD6AA4D24328A290042EFE8 /* LaunchScreen.storyboard */,
