@@ -59,6 +59,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     // search button on keyboard is pressed.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.search.endEditing(true)
+        self.pokemonImagesForAnimation.removeAll()
         self.pokemonImage.stopAnimating()
         // dont show pokemon image if nothing is typed
         if searchBar.text!.isEmpty {
