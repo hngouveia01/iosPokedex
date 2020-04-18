@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CB1141102436BAFD0055D822 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB11410F2436BAFD0055D822 /* Pokemon.swift */; };
+		CB4CBB49244BA72B001893E5 /* UIView+Glow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4CBB48244BA72B001893E5 /* UIView+Glow.swift */; };
 		CBC743FC2432C3300099676C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CBC743FB2432C3300099676C /* Alamofire */; };
 		CBC743FF2432C34C0099676C /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CBC743FE2432C34C0099676C /* SwiftyJSON */; };
 		CBD6AA4324328A270042EFE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6AA4224328A260042EFE8 /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		CB11410F2436BAFD0055D822 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
+		CB4CBB48244BA72B001893E5 /* UIView+Glow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Glow.swift"; sourceTree = "<group>"; };
 		CBD6AA3F24328A260042EFE8 /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD6AA4224328A260042EFE8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBD6AA4424328A270042EFE8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CB4CBB47244BA70C001893E5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CB4CBB48244BA72B001893E5 /* UIView+Glow.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		CBC744002432C39F0099676C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +134,7 @@
 		CBD6AA4124328A260042EFE8 /* Pokedex */ = {
 			isa = PBXGroup;
 			children = (
+				CB4CBB47244BA70C001893E5 /* View */,
 				CBF9AF90243804440099637D /* Network */,
 				CB11410E2436B86C0055D822 /* Model */,
 				CBC744002432C39F0099676C /* Assets */,
@@ -308,6 +319,7 @@
 				CBD6AA4724328A270042EFE8 /* ViewController.swift in Sources */,
 				CB1141102436BAFD0055D822 /* Pokemon.swift in Sources */,
 				CBD6AA4324328A270042EFE8 /* AppDelegate.swift in Sources */,
+				CB4CBB49244BA72B001893E5 /* UIView+Glow.swift in Sources */,
 				CBF9AF92243804550099637D /* RequestAPI.swift in Sources */,
 				CBD6AA4524328A270042EFE8 /* SceneDelegate.swift in Sources */,
 			);
