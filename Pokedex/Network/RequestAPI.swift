@@ -61,7 +61,6 @@ class RequestAPI {
                 } catch {
                     seal.reject(defaultError)
                 }
-
                 seal.fulfill(pokemon!)
             }.resume()
         }
