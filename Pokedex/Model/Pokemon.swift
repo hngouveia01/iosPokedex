@@ -2,53 +2,51 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-class PKMPokemon: Codable {
+class PKMPokemon {
     var id: Int
     var name: String
-    var height: Int
     var sprites: PKMPokemonSprites
 
     init(id: Int,
         name: String,
-         //url: String,
-         //weight: Int,
-         height: Int,
-         sprites: PKMPokemonSprites) {
+        sprites: PKMPokemonSprites) {
         self.id = id
         self.name = name
-        //self.spriteURL = url
-        self.height = height
-        //self.weight = weight
         self.sprites = sprites
     }
 }
 
-class PKMPokemonSprites: Codable {
-    /// The default depiction of this Pokémon from the front in battle
+struct PokemonDecodable: Decodable {
+    var id: Int
+    var name: String
     var frontDefault: String
+    var backDefault: String
 
-    init(frontDefault: String) {
-        self.frontDefault = frontDefault
+    enum CodingKeys: String, CodingKey {
+        case id, sprites, name
     }
-//
-//    /// The shiny depiction of this Pokémon from the front in battle
-//    var frontShiny: String?
-//
-//    /// The female depiction of this Pokémon from the front in battle
-//    var frontFemale: String?
-//
-//    /// The shiny female depiction of this Pokémon from the front
-//    var frontShinyFemale: String?
-//
-//    /// The default depiction of this Pokémon from the back in battle
-//    var backDefault: String?
-//
-//    /// The shiny depiction of this Pokémon from the back in battle
-//    var backShiny: String?
-//
-//    /// The female depiction of this Pokémon from the back in battle
-//    var backFemale: String?
-//
-//    /// The shiny female depiction of this Pokémon from the back in battle
-//    var backShinyFemale: String?
+
+    enum SpritesCodingKeys: String, CodingKey {
+        case front_default, back_default
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        let sprites = try container.nestedContainer(keyedBy: SpritesCodingKeys.self, forKey: .sprites)
+        frontDefault = try sprites.decode(String.self, forKey: .front_default)
+        backDefault = try sprites.decode(String.self, forKey: .back_default)
+    }
+
+}
+
+class PKMPokemonSprites: Codable {
+    var frontDefault: String
+    var backDefault: String
+
+    init(front frontDefault: String, back backDefault: String) {
+        self.frontDefault = frontDefault
+        self.backDefault = backDefault
+    }
 }

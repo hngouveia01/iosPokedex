@@ -6,6 +6,8 @@ import UIKit
 
 let baseURL: String = "http://pokeapi.co/api/v2"
 
+let defaultError = NSError(domain: "PokeAPI", code: 0, userInfo: [NSLocalizedDescriptionKey: "not yet implemented."])
+
 class RequestAPI {
     func fetchPokemon(_ pokemonId: String) -> Promise<PKMPokemon> {
         return Promise { seal in
@@ -15,31 +17,23 @@ class RequestAPI {
                     seal.reject(response.error!)
                 }
 
-                guard let data = response.data,
-                    let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
-                        let err = NSError(
-                        domain: "PokeAPI",
-                        code: 0,
-                        userInfo: [NSLocalizedDescriptionKey: "not yet implemented."])
-                        seal.reject(err)
+                guard let data = response.data else {
+                        seal.reject(defaultError)
                         return
                 }
 
-                let object = json as? [String: Any]
-                let identity = object!["id"] as! Int
-                let pokemonName = object!["name"] as! String
-                let pokemonHeight = object!["height"] as! Int
-                let sprites = object!["sprites"] as? [String: Any]
-                let url = sprites!["front_default"]
-                let pokemonSprite = PKMPokemonSprites(frontDefault: url as! String)
+                var pokemon: PKMPokemon? = nil
 
-                //let weight = object!["weight"] as! Int
-                //let sprites = object!["sprites"] as? [String: Any]
-                //let url = sprites!["front_default"]
-                let pokemon = PKMPokemon(id: identity, name: pokemonName, height: pokemonHeight, sprites: pokemonSprite)
+                do {
+                    let decoder = JSONDecoder()
+                    let decoded: PokemonDecodable = try decoder.decode(PokemonDecodable.self, from: data)
+                    let sprites = PKMPokemonSprites(front: decoded.frontDefault, back: decoded.backDefault)
+                    pokemon = PKMPokemon(id: decoded.id, name: decoded.name, sprites: sprites)
+                } catch {
+                    seal.reject(defaultError)
+                }
 
-                seal.fulfill(pokemon)
-
+                seal.fulfill(pokemon!)
             }.resume()
         }
     }
@@ -52,34 +46,27 @@ class RequestAPI {
                     seal.reject(response.error!)
                 }
 
-                guard let data = response.data,
-                    let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
-                        let err = NSError(
-                        domain: "PokeAPI",
-                        code: 0,
-                        userInfo: [NSLocalizedDescriptionKey: "not yet implemented."])
-                        seal.reject(err)
+                guard let data = response.data else {
+                        seal.reject(defaultError)
                         return
                 }
 
-                let object = json as? [String: Any]
-                let identity = object!["id"] as! Int
-                let pokemonName = object!["name"] as! String
-                let pokemonHeight = object!["height"] as! Int
-                let sprites = object!["sprites"] as? [String: Any]
-                let url = sprites!["front_default"]
-                let pokemonSprite = PKMPokemonSprites(frontDefault: url as! String)
+                var pokemon: PKMPokemon?
 
-                //let weight = object!["weight"] as! Int
-                //let sprites = object!["sprites"] as? [String: Any]
-                //let url = sprites!["front_default"]
-                let pokemon = PKMPokemon(id: identity, name: pokemonName, height: pokemonHeight, sprites: pokemonSprite)
+                do {
+                    let decoder = JSONDecoder()
+                    let decoded: PokemonDecodable = try decoder.decode(PokemonDecodable.self, from: data)
+                    let sprites = PKMPokemonSprites(front: decoded.frontDefault, back: decoded.backDefault)
+                    pokemon = PKMPokemon(id: decoded.id, name: decoded.name, sprites: sprites)
+                } catch {
+                    seal.reject(defaultError)
+                }
 
-                seal.fulfill(pokemon)
-
+                seal.fulfill(pokemon!)
             }.resume()
         }
     }
+
     func fetchPokemonImage(imageURL: URL) -> Promise<UIImage> {
         return Promise { seal in
             AF.download(imageURL).response { response in
