@@ -19,6 +19,8 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     // make requests for pokemon API
     var api: RequestAPI = RequestAPI()
 
+    var pokemonImagesForAnimation: Array<UIImage> = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,6 +59,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     // search button on keyboard is pressed.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.search.endEditing(true)
+        self.pokemonImage.stopAnimating()
         // dont show pokemon image if nothing is typed
         if searchBar.text!.isEmpty {
             self.pokemonImage.image = nil
@@ -64,7 +67,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         }
 
         if let pokemonName = searchBar.text {
-            self.pokemonImage.image = nil
+            //self.pokemonImage.image = nil
 
             let pokeNameLower: String = pokemonName.lowercased()
 
@@ -72,7 +75,22 @@ class ViewController:  UIViewController, UISearchBarDelegate {
             api.fetchPokemon(name: pokeNameLower).then { pokemon in
                 self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
             }.done { image in
-                self.pokemonImage.image = image
+                //self.pokemonImage.image = image
+                self.pokemonImagesForAnimation.append(image)
+                self.api.fetchPokemon(name: pokeNameLower).then { pokemon in
+                    self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.backDefault)!)
+                }.done { image in
+                    //self.pokemonImage.image = image
+                    self.pokemonImagesForAnimation.append(image)
+                    self.pokemonImage.animationImages = self.pokemonImagesForAnimation
+                    self.pokemonImage.animationDuration = 1
+                    self.pokemonImage.animationRepeatCount = 100
+                    self.pokemonImage.startAnimating()
+
+                }.catch { error in
+                    print("Cant find pokemon")
+                    self.pokemonImage.image = nil
+                }
             }.catch { error in
                 print("Cant find pokemon")
                 self.pokemonImage.image = nil
