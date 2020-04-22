@@ -4,6 +4,7 @@
 
 import UIKit
 import Alamofire
+import PromiseKit
 
 class ViewController:  UIViewController, UISearchBarDelegate {
     // show pokemon sprite
@@ -72,40 +73,29 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         }
 
         if let pokemonName = searchBar.text {
-            //self.pokemonImage.image = nil
-
             let pokeNameLower: String = pokemonName.lowercased()
 
             // request pokemon sprite
-            api.fetchPokemon(name: pokeNameLower).then { pokemon in
-                self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
-            }.done { image in
-                //self.pokemonImage.image = image
-                self.pokemonImagesForAnimation.append(image)
-                self.api.fetchPokemon(name: pokeNameLower).then { pokemon in
-                    self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.backDefault)!)
-                }.done { image in
-                    //self.pokemonImage.image = image
+            api.fetchPokemon(name: pokeNameLower)
+                .then { pokemon in
+                    self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
+                }
+                .done { data in
+                    guard let image = UIImage(data: data) else {
+                        print("Cant find pokemon")
+                        self.pokemonImage.image = nil
+                        return
+                    }
                     self.pokemonImagesForAnimation.append(image)
                     self.pokemonImage.animationImages = self.pokemonImagesForAnimation
                     self.pokemonImage.animationDuration = 1
                     self.pokemonImage.animationRepeatCount = 100
                     self.pokemonImage.startAnimating()
-
-                }.catch { error in
-                    print("Cant find pokemon")
-                    self.pokemonImage.image = nil
-                }
-            }.catch { error in
+            }.catch { _ in
                 print("Cant find pokemon")
                 self.pokemonImage.image = nil
             }
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 
