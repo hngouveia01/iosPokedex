@@ -50,6 +50,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         self.search.searchTextField.autocapitalizationType = .none
         pokedexBlueLight.makeRounded()
         pokedexBlueLight.startGlowingWithColor(color: UIColor.cyan, intensity: 1.5)
+        self.search.becomeFirstResponder()
     }
 
     @objc func tappedView(sender: UITapGestureRecognizer){
