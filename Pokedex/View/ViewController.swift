@@ -20,7 +20,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     let tapRec = UITapGestureRecognizer()
 
     // make requests for pokemon API
-    var api: RequestAPI = RequestAPI()
+    let api: RequestAPI = RequestAPI()
 
     var pokemonImagesForAnimation: Array<UIImage> = []
 
@@ -46,6 +46,9 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         singleTapGestureRecognizer.cancelsTouchesInView = false
         self.view.addGestureRecognizer(singleTapGestureRecognizer)
 
+        self.pokemonImage.animationDuration = 1
+        self.pokemonImage.animationRepeatCount = 100
+
         // no need to use captal letters here
         self.search.searchTextField.autocapitalizationType = .none
         pokedexBlueLight.makeRounded()
@@ -63,6 +66,34 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     }
 
     // search button on keyboard is pressed.
+    private func generatePokemon(_ pokemonName: String) -> PMKFinalizer {
+        return // request pokemon data
+            api.fetchPokemon(name: pokemonName.lowercased())
+                .done { [weak self] pokemon in
+                    if let `self` = self {
+                        self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
+                            .done { frontImage in
+                                self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
+                                self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.backDefault)!)
+                                    .done { backImage in
+                                        self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
+                                        self.pokemonImage.animationImages = self.pokemonImagesForAnimation
+                                        self.pokemonImage.startAnimating()
+                                }
+                                .catch { error in
+                                    print("error while fetching back image")
+                                }
+                        }
+                        .catch { error in
+                            print("error while fetching front image")
+                        }
+                    }
+            }
+            .catch { error in
+                print("error while fetching pokemon")
+        }
+    }
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.search.endEditing(true)
         self.pokemonImagesForAnimation.removeAll()
@@ -74,28 +105,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         }
 
         if let pokemonName = searchBar.text {
-            let pokeNameLower: String = pokemonName.lowercased()
-
-            // request pokemon sprite
-            api.fetchPokemon(name: pokeNameLower)
-                .then { pokemon in
-                    self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
-                }
-                .done { data in
-                    guard let image = UIImage(data: data) else {
-                        print("Cant find pokemon")
-                        self.pokemonImage.image = nil
-                        return
-                    }
-                    self.pokemonImagesForAnimation.append(image)
-                    self.pokemonImage.animationImages = self.pokemonImagesForAnimation
-                    self.pokemonImage.animationDuration = 1
-                    self.pokemonImage.animationRepeatCount = 100
-                    self.pokemonImage.startAnimating()
-            }.catch { _ in
-                print("Cant find pokemon")
-                self.pokemonImage.image = nil
-            }
+            generatePokemon(pokemonName)
         }
     }
 }

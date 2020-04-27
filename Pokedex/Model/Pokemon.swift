@@ -8,10 +8,10 @@ class PKMPokemon {
     var sprites: PKMPokemonSprites
     var moves: [String]
 
-    init(id: Int,
-        name: String,
-        sprites: PKMPokemonSprites,
-        moves: [String]) {
+    init(id: Int = 0,
+        name: String = "",
+        sprites: PKMPokemonSprites = PKMPokemonSprites(front: "", back: ""),
+        moves: [String] = []) {
         self.id = id
         self.name = name
         self.sprites = sprites
