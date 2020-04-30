@@ -24,6 +24,8 @@ class ViewController:  UIViewController, UISearchBarDelegate {
 
     var pokemonImagesForAnimation: Array<UIImage> = []
 
+    var pokemon: PKMPokemon?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,8 +48,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         singleTapGestureRecognizer.cancelsTouchesInView = false
         self.view.addGestureRecognizer(singleTapGestureRecognizer)
 
-        self.pokemonImage.animationDuration = 1
-        self.pokemonImage.animationRepeatCount = 100
+        self.pokemonImage.animationDuration = 3
 
         // no need to use captal letters here
         self.search.searchTextField.autocapitalizationType = .none
@@ -73,6 +74,12 @@ class ViewController:  UIViewController, UISearchBarDelegate {
                     if let `self` = self {
                         self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
                             .done { frontImage in
+                                //self.pokemon = pokemon
+                                let outputLine = "===========================\n"
+                                var output = String(outputLine)
+                                output.append("name: " + pokemon.name + "\n")
+                                output.append(outputLine + "\n")
+                                self.PokemonInfoTextView.text = output
                                 self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
                                 self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.backDefault)!)
                                     .done { backImage in
