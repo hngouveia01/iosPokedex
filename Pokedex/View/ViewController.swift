@@ -10,6 +10,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     // show pokemon sprite
     @IBOutlet weak var pokemonImage: UIImageView!
     // search bar to search pokemon
+    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var search: UISearchBar!
     // OK image button
     @IBOutlet weak var okUImage: UIImageView!
@@ -35,6 +36,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         // Change background colour that is
         // in front of "PUT A DESCRIPTION HERE
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
+        self.backgroundImage.setValue(UIColor.red, forKey: "backgroundColor")
 
         // connect tap gesture function for OK button Image
         tapRec.addTarget(self, action: #selector(self.tappedView(sender:)))
