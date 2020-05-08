@@ -35,10 +35,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         // Change background colour that is
         // in front of "PUT A DESCRIPTION HERE
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
-        self.backgroundImage.setValue(UIColor.red, forKey: "backgroundColor")
-
-        // connect tap gesture function for OK button Image
-        tapRec.addTarget(self, action: #selector(self.tappedView(sender:)))
+        self.backgroundImage.setValue(UIColor.systemRed, forKey: "backgroundColor")
 
         // dismiss keyboard used in search bar
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTap(sender:)))
@@ -47,17 +44,13 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         singleTapGestureRecognizer.cancelsTouchesInView = false
         self.view.addGestureRecognizer(singleTapGestureRecognizer)
 
-        self.pokemonImage.animationDuration = 3
+        self.pokemonImage.animationDuration = 1
 
         // no need to use captal letters here
         self.search.searchTextField.autocapitalizationType = .none
         pokedexBlueLight.makeRounded()
         pokedexBlueLight.startGlowingWithColor(color: UIColor.cyan, intensity: 1.5)
         self.search.becomeFirstResponder()
-    }
-
-    @objc func tappedView(sender: UITapGestureRecognizer){
-        print("OK button tapped")
     }
 
     // to dismiss keyboard during search
