@@ -13,7 +13,6 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var search: UISearchBar!
     // OK image button
-    @IBOutlet weak var okUImage: UIImageView!
 
     @IBOutlet weak var pokedexBlueLight: UIImageView!
     @IBOutlet weak var PokemonInfoTextView: UITextView!
@@ -40,8 +39,6 @@ class ViewController:  UIViewController, UISearchBarDelegate {
 
         // connect tap gesture function for OK button Image
         tapRec.addTarget(self, action: #selector(self.tappedView(sender:)))
-        okUImage.addGestureRecognizer(tapRec)
-        okUImage.isUserInteractionEnabled = true;
 
         // dismiss keyboard used in search bar
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTap(sender:)))
