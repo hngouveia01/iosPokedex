@@ -12,18 +12,14 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     // search bar to search pokemon
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var search: UISearchBar!
-    // OK image button
-
     @IBOutlet weak var pokedexBlueLight: UIImageView!
     @IBOutlet weak var PokemonInfoTextView: UITextView!
+
     // tap gesture recognizer for OK image
     let tapRec = UITapGestureRecognizer()
-
     // make requests for pokemon API
     let api: RequestAPI = RequestAPI()
-
     var pokemonImagesForAnimation: Array<UIImage> = []
-
     var pokemon: PKMPokemon?
 
     override func viewDidLoad() {
@@ -85,28 +81,28 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         pokemon = PKMPokemon(name: name.lowercased())
         self.pokemonImage.animationImages?.removeAll()
 
-            api.fetchPokemonWith(name: name)
-                .done { [weak self] result in
-                    if let `self` = self {
-                        self.pokemon = result
-                        self.api.fetchPokemonImage(imageURL: URL(string: result.sprites.frontDefault)!)
-                            .done { frontImage in
-                                self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
-                                self.api.fetchPokemonImage(imageURL: URL(string: (self.pokemon?.sprites.backDefault)!)!)
-                                    .done { backImage in
-                                        self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
-                                        self.pokemonImage.animationImages = self.pokemonImagesForAnimation
-                                        self.pokemonImage.startAnimating()
-                                }
-                                .catch { error in
-                                    print("error while fetching back image")
-                                }
-                        }
-                        .catch { error in
-                            print("error while fetching front image")
-                        }
+        api.fetchPokemonWith(name: name)
+            .done { [weak self] result in
+                if let `self` = self {
+                    self.pokemon = result
+                    self.api.fetchPokemonImage(imageURL: URL(string: result.sprites.frontDefault)!)
+                        .done { frontImage in
+                            self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
+                            self.api.fetchPokemonImage(imageURL: URL(string: (self.pokemon?.sprites.backDefault)!)!)
+                                .done { backImage in
+                                    self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
+                                    self.pokemonImage.animationImages = self.pokemonImagesForAnimation
+                                    self.pokemonImage.startAnimating()
+                            }
+                            .catch { error in
+                                print("error while fetching back image")
+                            }
                     }
-            }
+                    .catch { error in
+                        print("error while fetching front image")
+                    }
+                }
+        }
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
