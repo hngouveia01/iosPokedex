@@ -32,6 +32,11 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         /* Setup delegates */
         self.search.delegate = self
 
+        // modify search bar
+        let textFieldInsideUISearchBar = self.search.value(forKey: "searchField") as? UITextField
+        textFieldInsideUISearchBar?.borderStyle = .line
+        textFieldInsideUISearchBar?.backgroundColor = UIColor.white
+
         // Change background colour that is
         // in front of "PUT A DESCRIPTION HERE
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
