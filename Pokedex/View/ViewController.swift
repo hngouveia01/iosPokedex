@@ -40,6 +40,8 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         // Change background colour that is
         // in front of "PUT A DESCRIPTION HERE
         self.pokemonImage.setValue(UIColor.systemGreen, forKey: "backgroundColor")
+        self.pokemonImage.layer.cornerRadius = 10
+        self.pokemonImage.layer.masksToBounds = true
         self.backgroundImage.setValue(UIColor.systemRed, forKey: "backgroundColor")
 
         // dismiss keyboard used in search bar
