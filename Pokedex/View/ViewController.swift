@@ -64,6 +64,16 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         self.search.resignFirstResponder()
     }
 
+    @IBAction func downButtonPressed(_ sender: Any) {
+        print("DOWN button pressed")
+        self.pokemonImage.animationImages?.removeAll()
+        self.pokemonImage.stopAnimating()
+
+        let id = "\((pokemon!.id + 1) ?? 1)"
+        pokemon = nil
+
+        generatePokemonWith(name: id)
+    }
     @IBAction func upButtonPressed(_ sender: Any) {
         print("UP button pressed")
         self.pokemonImage.animationImages?.removeAll()
