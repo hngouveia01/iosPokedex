@@ -36,6 +36,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         let textFieldInsideUISearchBar = self.search.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.borderStyle = .line
         textFieldInsideUISearchBar?.backgroundColor = UIColor.white
+        textFieldInsideUISearchBar?.textColor = .black
 
         // Change background colour that is
         // in front of "PUT A DESCRIPTION HERE
