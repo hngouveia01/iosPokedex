@@ -17,6 +17,14 @@ class PKMPokemon {
         self.sprites = sprites
         self.moves = moves
     }
+
+    init(name: String
+        ) {
+        self.id = 0
+        self.name = ""
+        self.sprites = PKMPokemonSprites(front: "", back: "")
+        self.moves = []
+    }
 }
 
 class PKMPokemonSprites: Codable {

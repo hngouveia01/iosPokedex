@@ -9,7 +9,7 @@ let baseURL: String = "http://pokeapi.co/api/v2"
 let defaultError = NSError(domain: "PokeAPI", code: 0, userInfo: [NSLocalizedDescriptionKey: "not yet implemented."])
 
 class RequestAPI {
-    func fetchPokemon(name pokename: String) -> Promise<PKMPokemon> {
+    func fetchPokemonWith(name pokename: String) -> Promise<PKMPokemon> {
         return Promise { seal in
             let url = baseURL + "/pokemon/" + pokename
             AF.request(url, method: .get)

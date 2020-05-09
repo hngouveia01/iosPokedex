@@ -59,6 +59,8 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         pokedexBlueLight.makeRounded()
         pokedexBlueLight.startGlowingWithColor(color: UIColor.cyan, intensity: 1.5)
         self.search.becomeFirstResponder()
+
+        self.pokemon = PKMPokemon()
     }
 
     // to dismiss keyboard during search
@@ -67,21 +69,18 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     }
 
     // search button on keyboard is pressed.
-    private func generatePokemon(_ pokemonName: String) -> PMKFinalizer {
-        return // request pokemon data
-            api.fetchPokemon(name: pokemonName.lowercased())
-                .done { [weak self] pokemon in
+    private func generatePokemonWith(name: String) -> Void {
+        //return // request pokemon data
+        pokemon = PKMPokemon(name: name.lowercased())
+
+            api.fetchPokemonWith(name: name)
+                .done { [weak self] result in
                     if let `self` = self {
-                        self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.frontDefault)!)
+                        self.pokemon = result
+                        self.api.fetchPokemonImage(imageURL: URL(string: result.sprites.frontDefault)!)
                             .done { frontImage in
-                                //self.pokemon = pokemon
-                                let outputLine = "===========================\n"
-                                var output = String(outputLine)
-                                output.append("name: " + pokemon.name + "\n")
-                                output.append(outputLine + "\n")
-                                self.PokemonInfoTextView.text = output
                                 self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
-                                self.api.fetchPokemonImage(imageURL: URL(string: pokemon.sprites.backDefault)!)
+                                self.api.fetchPokemonImage(imageURL: URL(string: (self.pokemon?.sprites.backDefault)!)!)
                                     .done { backImage in
                                         self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
                                         self.pokemonImage.animationImages = self.pokemonImagesForAnimation
@@ -96,9 +95,6 @@ class ViewController:  UIViewController, UISearchBarDelegate {
                         }
                     }
             }
-            .catch { error in
-                print("error while fetching pokemon")
-        }
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -112,7 +108,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         }
 
         if let pokemonName = searchBar.text {
-            generatePokemon(pokemonName)
+            generatePokemonWith(name: pokemonName)
         }
     }
 }
