@@ -68,10 +68,22 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         self.search.resignFirstResponder()
     }
 
+    @IBAction func upButtonPressed(_ sender: Any) {
+        print("UP button pressed")
+        self.pokemonImage.animationImages?.removeAll()
+        self.pokemonImage.stopAnimating()
+
+        let id = "\((pokemon!.id - 1) ?? 1)"
+        pokemon = nil
+
+        generatePokemonWith(name: id)
+    }
     // search button on keyboard is pressed.
     private func generatePokemonWith(name: String) -> Void {
-        //return // request pokemon data
+        self.pokemonImage.stopAnimating()
+        self.pokemonImagesForAnimation.removeAll()
         pokemon = PKMPokemon(name: name.lowercased())
+        self.pokemonImage.animationImages?.removeAll()
 
             api.fetchPokemonWith(name: name)
                 .done { [weak self] result in
@@ -121,5 +133,11 @@ extension UIImageView {
         self.layer.borderColor = UIColor.cyan.cgColor
         self.layer.cornerRadius = self.frame.height / 2
         self.clipsToBounds = false
+    }
+}
+
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
     }
 }
