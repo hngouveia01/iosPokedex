@@ -52,8 +52,8 @@ class ViewController:  UIViewController, UISearchBarDelegate {
 
         // no need to use captal letters here
         self.search.searchTextField.autocapitalizationType = .none
-        pokedexBlueLight.makeRounded()
-        pokedexBlueLight.startGlowingWithColor(color: UIColor.cyan, intensity: 1.5)
+        //pokedexBlueLight.makeRounded()
+        //pokedexBlueLight.startGlowingWithColor(color: UIColor.cyan, intensity: 1.5)
         self.search.becomeFirstResponder()
 
         self.pokemon = PKMPokemon()
