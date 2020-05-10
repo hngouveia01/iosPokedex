@@ -6,7 +6,7 @@ import UIKit
 import Alamofire
 import PromiseKit
 
-class ViewController:  UIViewController, UISearchBarDelegate {
+class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     // show pokemon sprite
     @IBOutlet weak var pokemonImage: UIImageView!
     // search bar to search pokemon
@@ -14,6 +14,7 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet weak var pokedexBlueLight: UIImageView!
     @IBOutlet weak var PokemonInfoTextView: UITextView!
+    @IBOutlet weak var infoPokemon: UITableView!
 
     // tap gesture recognizer for OK image
     let tapRec = UITapGestureRecognizer()
@@ -22,11 +23,26 @@ class ViewController:  UIViewController, UISearchBarDelegate {
     var pokemonImagesForAnimation: Array<UIImage> = []
     var pokemon: PKMPokemon?
 
+    // Data model: These strings will be the data for the table view cells
+    let animals: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
+
+    // cell reuse id (cells that scroll out of view can be reused)
+    let cellReuseIdentifier = "cell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         /* Setup delegates */
         self.search.delegate = self
+        // Register the table view cell class and its reuse id
+        self.infoPokemon.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+
+        // (optional) include this line if you want to remove the extra empty cell divider lines
+        // self.tableView.tableFooterView = UIView()
+
+        // This view controller itself will provide the delegate methods and row data for the table view.
+        infoPokemon.delegate = self
+        infoPokemon.dataSource = self
 
         // modify search bar
         let textFieldInsideUISearchBar = self.search.value(forKey: "searchField") as? UITextField
@@ -57,6 +73,28 @@ class ViewController:  UIViewController, UISearchBarDelegate {
         self.search.becomeFirstResponder()
 
         self.pokemon = PKMPokemon()
+    }
+
+    // number of rows in table view
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.animals.count
+    }
+
+    // create a cell for each table view row
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        // create a new cell if needed or reuse an old one
+        let cell:UITableViewCell = (self.infoPokemon.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as UITableViewCell?)!
+
+        // set the text from the data model
+        cell.textLabel?.text = self.animals[indexPath.row]
+
+        return cell
+    }
+
+    // method to run when table view cell is tapped
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You tapped cell number \(indexPath.row).")
     }
 
     // to dismiss keyboard during search

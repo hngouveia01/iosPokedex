@@ -128,6 +128,7 @@
                     <connections>
                         <outlet property="PokemonInfoTextView" destination="78O-qT-Onr" id="gXU-Ty-Wlq"/>
                         <outlet property="backgroundImage" destination="5Kq-eD-1ar" id="z1E-xn-JPp"/>
+                        <outlet property="infoPokemon" destination="AHc-ax-6hc" id="aOg-c8-87Z"/>
                         <outlet property="pokemonImage" destination="E6q-je-r7V" id="kW4-3r-Fo7"/>
                         <outlet property="search" destination="Th9-er-Ccx" id="Qq6-De-XGw"/>
                     </connections>
