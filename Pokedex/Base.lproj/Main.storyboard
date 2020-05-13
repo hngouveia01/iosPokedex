@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Kq-eD-1ar">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="red-gradient-background-1542348556NTz" translatesAutoresizingMaskIntoConstraints="NO" id="5Kq-eD-1ar">
                                 <rect key="frame" x="1" y="0.0" width="374" height="812"/>
                                 <viewLayoutGuide key="safeArea" id="ojb-pQ-2fx"/>
                             </imageView>
@@ -153,4 +153,7 @@
             <point key="canvasLocation" x="1076" y="136.69950738916256"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="red-gradient-background-1542348556NTz" width="1920" height="1176"/>
+    </resources>
 </document>
