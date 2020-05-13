@@ -87,12 +87,20 @@
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="sGf-6m-rfD">
+                                <rect key="frame" x="161" y="492" width="181" height="123"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="123" id="GY3-RI-sI8"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="sGf-6m-rfD" firstAttribute="trailing" secondItem="E6q-je-r7V" secondAttribute="trailing" id="0kI-R8-NDF"/>
                             <constraint firstItem="78O-qT-Onr" firstAttribute="bottom" secondItem="AHc-ax-6hc" secondAttribute="bottom" id="3SI-As-c7t"/>
                             <constraint firstItem="w9u-fO-iO3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="161" id="3Wq-X4-v5I"/>
                             <constraint firstItem="gfm-x3-K2P" firstAttribute="top" secondItem="E6q-je-r7V" secondAttribute="top" id="3bX-5Q-7BX"/>
+                            <constraint firstItem="sGf-6m-rfD" firstAttribute="top" secondItem="E6q-je-r7V" secondAttribute="top" id="4Lw-0T-HHc"/>
                             <constraint firstItem="5Kq-eD-1ar" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AUD-vr-SHs"/>
                             <constraint firstItem="w9u-fO-iO3" firstAttribute="top" secondItem="E6q-je-r7V" secondAttribute="bottom" constant="14" id="Aaj-bP-xug"/>
                             <constraint firstItem="78O-qT-Onr" firstAttribute="top" secondItem="Th9-er-Ccx" secondAttribute="bottom" id="Ghi-gk-F3U"/>
@@ -102,6 +110,7 @@
                             <constraint firstItem="78O-qT-Onr" firstAttribute="trailing" secondItem="E6q-je-r7V" secondAttribute="trailing" id="RdR-P4-dJF"/>
                             <constraint firstItem="gfm-x3-K2P" firstAttribute="centerX" secondItem="tCN-C9-zqh" secondAttribute="centerX" id="Rgi-pS-2aX"/>
                             <constraint firstItem="5Kq-eD-1ar" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="1" id="Wdf-Li-wkd"/>
+                            <constraint firstItem="sGf-6m-rfD" firstAttribute="leading" secondItem="E6q-je-r7V" secondAttribute="leading" id="WlE-Gq-oLb"/>
                             <constraint firstItem="5Kq-eD-1ar" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-44" id="XvQ-W2-yg9"/>
                             <constraint firstItem="w9u-fO-iO3" firstAttribute="baseline" secondItem="41z-XD-kX4" secondAttribute="baseline" id="bTW-Ey-pWW"/>
                             <constraint firstItem="tCN-C9-zqh" firstAttribute="top" secondItem="EqZ-IN-B3V" secondAttribute="bottom" constant="8" id="cdH-B0-Esm"/>
@@ -130,6 +139,7 @@
                         <outlet property="backgroundImage" destination="5Kq-eD-1ar" id="z1E-xn-JPp"/>
                         <outlet property="infoPokemon" destination="AHc-ax-6hc" id="aOg-c8-87Z"/>
                         <outlet property="pokemonImage" destination="E6q-je-r7V" id="kW4-3r-Fo7"/>
+                        <outlet property="pokemonLoadIndicator" destination="sGf-6m-rfD" id="Nu4-Iq-EiW"/>
                         <outlet property="search" destination="Th9-er-Ccx" id="Qq6-De-XGw"/>
                     </connections>
                 </viewController>

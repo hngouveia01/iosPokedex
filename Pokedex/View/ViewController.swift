@@ -15,6 +15,7 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
     @IBOutlet weak var pokedexBlueLight: UIImageView!
     @IBOutlet weak var PokemonInfoTextView: UITextView!
     @IBOutlet weak var infoPokemon: UITableView!
+    @IBOutlet weak var pokemonLoadIndicator: UIActivityIndicatorView!
 
     // tap gesture recognizer for OK image
     let tapRec = UITapGestureRecognizer()
@@ -72,6 +73,8 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
         //pokedexBlueLight.makeRounded()
         //pokedexBlueLight.startGlowingWithColor(color: UIColor.cyan, intensity: 1.5)
         self.search.becomeFirstResponder()
+
+        self.pokemonLoadIndicator.hidesWhenStopped = true
 
         self.pokemon = PKMPokemon()
 
@@ -131,6 +134,7 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
         self.pokemonImagesForAnimation.removeAll()
         pokemon = PKMPokemon(name: name.lowercased())
         self.pokemonImage.animationImages?.removeAll()
+        self.pokemonLoadIndicator.startAnimating()
 
         firstly {
             api.fetchPokemonWith(name: name)
@@ -148,6 +152,7 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
             self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
             self.pokemonImage.animationImages = self.pokemonImagesForAnimation
         }.ensure(on: DispatchQueue.main) {
+            self.pokemonLoadIndicator.stopAnimating()
             self.pokemonImage.startAnimating()
         }.catch { error in
             print("Error while downloading pokemon data")
