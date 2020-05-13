@@ -26,13 +26,14 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
     let backgroundQueue = DispatchQueue.global(qos: .background)
 
     // Data model: These strings will be the data for the table view cells
-    let animals: [String] = ["Weedle", "Ditto"]
+    let animals: [String] = ["Name", "Moves"]
 
     // cell reuse id (cells that scroll out of view can be reused)
     let cellReuseIdentifier = "cell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(super.traitCollection.userInterfaceIdiom)
 
         /* Setup delegates */
         self.search.delegate = self
@@ -108,7 +109,6 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
     }
 
     @IBAction func downButtonPressed(_ sender: Any) {
-        print("DOWN button pressed")
         self.pokemonImage.animationImages?.removeAll()
         self.pokemonImage.stopAnimating()
 
@@ -118,7 +118,6 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
         generatePokemonWith(name: id)
     }
     @IBAction func upButtonPressed(_ sender: Any) {
-        print("UP button pressed")
         self.pokemonImage.animationImages?.removeAll()
         self.pokemonImage.stopAnimating()
 
