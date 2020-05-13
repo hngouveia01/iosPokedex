@@ -10,7 +10,7 @@ let defaultError = NSError(domain: "PokeAPI", code: 0, userInfo: [NSLocalizedDes
 
 class RequestAPI {
     func fetchPokemonWith(name pokename: String) -> Promise<PKMPokemon> {
-        return Promise { seal in
+        return Promise<PKMPokemon> { seal in
             let url = baseURL + "/pokemon/" + pokename
             AF.request(url, method: .get)
                 .validate()

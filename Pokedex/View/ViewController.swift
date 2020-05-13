@@ -22,6 +22,7 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
     let api: RequestAPI = RequestAPI()
     var pokemonImagesForAnimation: Array<UIImage> = []
     var pokemon: PKMPokemon?
+    let backgroundQueue = DispatchQueue.global(qos: .background)
 
     // Data model: These strings will be the data for the table view cells
     let animals: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
@@ -73,6 +74,7 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
         self.search.becomeFirstResponder()
 
         self.pokemon = PKMPokemon()
+
     }
 
     // number of rows in table view
@@ -124,32 +126,31 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
     }
     // search button on keyboard is pressed.
     private func generatePokemonWith(name: String) -> Void {
+
         self.pokemonImage.stopAnimating()
         self.pokemonImagesForAnimation.removeAll()
         pokemon = PKMPokemon(name: name.lowercased())
         self.pokemonImage.animationImages?.removeAll()
 
-        api.fetchPokemonWith(name: name)
-            .done { [weak self] result in
-                if let `self` = self {
-                    self.pokemon = result
-                    self.api.fetchPokemonImage(imageURL: URL(string: result.sprites.frontDefault)!)
-                        .done { frontImage in
-                            self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
-                            self.api.fetchPokemonImage(imageURL: URL(string: (self.pokemon?.sprites.backDefault)!)!)
-                                .done { backImage in
-                                    self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
-                                    self.pokemonImage.animationImages = self.pokemonImagesForAnimation
-                                    self.pokemonImage.startAnimating()
-                            }
-                            .catch { error in
-                                print("error while fetching back image")
-                            }
-                    }
-                    .catch { error in
-                        print("error while fetching front image")
-                    }
+        firstly {
+            api.fetchPokemonWith(name: name)
+                .done(on: self.backgroundQueue) { pokeResult in
+                    self.pokemon = pokeResult
                 }
+        }.then(on: backgroundQueue) { _ in
+            self.api.fetchPokemonImage(imageURL: URL(string: (self.pokemon?.sprites.frontDefault)!)!)
+                .done(on: self.backgroundQueue) { frontImage in
+                    self.pokemonImagesForAnimation.append(UIImage(data: frontImage)!)
+                }
+        }.then(on: backgroundQueue) { _ in
+            self.api.fetchPokemonImage(imageURL: URL(string: (self.pokemon?.sprites.backDefault)!)!)
+        }.done(on: DispatchQueue.main) { backImage in
+            self.pokemonImagesForAnimation.append(UIImage(data: backImage)!)
+            self.pokemonImage.animationImages = self.pokemonImagesForAnimation
+        }.ensure(on: DispatchQueue.main) {
+            self.pokemonImage.startAnimating()
+        }.catch { error in
+            print("Error while downloading pokemon data")
         }
     }
 
