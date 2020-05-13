@@ -26,7 +26,7 @@ class ViewController:  UIViewController, UISearchBarDelegate, UITableViewDelegat
     let backgroundQueue = DispatchQueue.global(qos: .background)
 
     // Data model: These strings will be the data for the table view cells
-    let animals: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
+    let animals: [String] = ["Weedle", "Ditto"]
 
     // cell reuse id (cells that scroll out of view can be reused)
     let cellReuseIdentifier = "cell"
